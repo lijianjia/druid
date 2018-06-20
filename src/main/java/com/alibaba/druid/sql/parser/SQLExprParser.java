@@ -2543,6 +2543,12 @@ public class SQLExprParser extends SQLParser {
             lexer.nextToken();
             dataType.setName("DOUBLE PRECISION");
         }
+        
+        if (lexer.identifierEquals(FnvHash.Constants.FORMAT)
+                && dataType.nameHashCode64() == FnvHash.Constants.DATE) {
+            lexer.nextToken();
+            dataType.setName("DATE FORMAT");
+        }
 
         if (FnvHash.Constants.TIMESTAMP == dataType.nameHashCode64()) {
             if (lexer.identifierEquals(FnvHash.Constants.WITHOUT)) {
