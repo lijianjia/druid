@@ -333,17 +333,44 @@ public class SQLServerStatementParser extends SQLStatementParser {
         SQLTableSource tableSource = this.exprParser.createSelectParser().parseTableSource();
         udpateStatement.setTableSource(tableSource);
 
-        parseUpdateSet(udpateStatement);
+/*        if (lexer.token() == Token.FROM) {
+            lexer.nextToken();
+            SQLTableSource from = this.exprParser.createSelectParser().parseTableSource();
+            udpateStatement.setFrom(from);
+        }*/
+        
+/*        parseUpdateSet(udpateStatement);
         
         SQLServerOutput output = this.getExprParser().parserOutput();
         if (output != null) {
             udpateStatement.setOutput(output);
-        }
+        }*/
 
         if (lexer.token() == Token.FROM) {
             lexer.nextToken();
             SQLTableSource from = this.exprParser.createSelectParser().parseTableSource();
             udpateStatement.setFrom(from);
+            
+            parseUpdateSet(udpateStatement);
+            
+            SQLServerOutput output = this.getExprParser().parserOutput();
+            if (output != null) {
+                udpateStatement.setOutput(output);
+        }
+        }
+            else {
+            parseUpdateSet(udpateStatement);
+            
+            SQLServerOutput output1 = this.getExprParser().parserOutput();
+            if (output1 != null) {
+                udpateStatement.setOutput(output1);
+
+            }
+            
+            lexer.nextToken();
+            SQLTableSource from1 = this.exprParser.createSelectParser().parseTableSource();
+            udpateStatement.setFrom(from1);
+
         }
 
         if (lexer.token() == (Token.WHERE)) {
